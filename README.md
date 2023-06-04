@@ -1,8 +1,8 @@
 # Databases2023
 
-[![Node.js](https://img.shields.io/badge/Node.js-%3Cversion%3E-%3Ccolor%3E)](https://nodejs.org/)
-[![MySQL](https://img.shields.io/badge/MySQL-%3Cversion%3E-%3Ccolor%3E)](https://www.mysql.com/)
-[![HTML/EJS](https://img.shields.io/badge/HTML%2FEJS-%3Cversion%3E-%3Ccolor%3E)](https://html.spec.whatwg.org/)
+![my badge](https://badgen.net/badge/nodeJS/v18.12.1/green/?icon=https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg)
+![mysql](https://user-images.githubusercontent.com/115226054/218501030-55685c2d-a632-4cab-a57e-0c5ef694059d.svg)
+![my badge](https://badgen.net/badge/express/v4.18.2/red/?icon=https://upload.wikimedia.org/wikipedia/commons/d/db/Npm-logo.svg)
 
 Team: Anastasia-Christina Liva 03119029
       George Mystriotis 03119065
