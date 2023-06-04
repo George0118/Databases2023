@@ -1,4 +1,4 @@
-# Databases2023
+# Databases2023 - LibAPP
 
 ![my badge](https://badgen.net/badge/nodeJS/v18.12.1/green/?icon=https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg)
 ![mysql](https://user-images.githubusercontent.com/115226054/218501030-55685c2d-a632-4cab-a57e-0c5ef694059d.svg)
