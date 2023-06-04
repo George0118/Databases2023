@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Διαγραφή</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .approve-button {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #191e79;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .approve-button:hover {
+            background-color: #585858;
+        }
+
+        .approve-button:disabled {
+            background-color: #ccc !important;
+            color: #999 !important;
+            cursor: not-allowed;
+        }
+
+        .alert {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            width: fit-content;
+        }
+
+        .alert-failure {
+            background-color: #ef7f7f;
+            color: #bc0404;
+            border: 1px solid #ef7f7f;
+        }
+
+        .alert .message {
+            flex: 1;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert .close {
+            margin-left: 30px;
+            color: #7c7c7c;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <% if (successMessage.length> 0) { %>
+        <div class="alert alert-success">
+            <span class="message">
+                <%= successMessage %>
+            </span>
+            <span class="close">&times;</span>
+        </div>
+        <% } %>
+
+            <% if (failureMessage.length> 0) { %>
+                <div class="alert alert-failure">
+                    <span class="message">
+                        <%= failureMessage %>
+                    </span>
+                    <span class="close">&times;</span>
+                </div>
+                <% } %>
+
+                    <a href="/libapp/school_admin/starting_page?user_id=<%= user_id %>&school_id=<%= school_id %>"
+                        style="position: absolute; top: 20px; left: 30px; font-size: 20px; text-decoration: none; color: #191e79">Αρχική</a>
+
+                    <h1>Δοαγραφή Χρηστών</h1>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Όνομα</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Ενέργεια</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% accounts.forEach(function(account) { %>
+                                <tr>
+                                    <td>
+                                        <%= account.IdUsers %>
+                                    </td>
+                                    <td>
+                                        <%= account.Name %>
+                                    </td>
+                                    <td>
+                                        <%= account.Username %>
+                                    </td>
+                                    <td>
+                                        <%= account.Email %>
+                                    </td>
+                                    <td>
+                                        <form action="delete_accounts/delete" method="POST">
+                                            <input type="hidden" name="userId" value="<%= account.IdUsers %>">
+                                            <input type="hidden" name="school_id" value="<%= school_id %>">
+                                            <input type="hidden" name="user_id" value="<%= user_id %>">
+                                            <button class="approve-button" type="submit">Διαγραφή</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                        </tbody>
+                    </table>
+                    <script>
+                        // Close flash message when close button is clicked
+                        const closeButtons = document.querySelectorAll('.close');
+                        closeButtons.forEach(button => {
+                            button.addEventListener('click', () => {
+                                const alert = button.parentElement;
+                                alert.style.display = 'none';
+                            });
+                        });
+                    </script>
+
+</body>
+
+</html>

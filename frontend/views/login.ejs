@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>LibAPP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+
+        h1,
+        h3 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+        }
+
+        label,
+        input {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #3f38bd;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .signup-link a {
+            color: #3f38bd;
+            text-decoration: none;
+        }
+
+        .alert {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            width: fit-content;
+        }
+
+        .alert-failure {
+            background-color: #ef7f7f;
+            color: #bc0404;
+            border: 1px solid #ef7f7f;
+        }
+
+        .alert .message {
+            flex: 1;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert .close {
+            margin-left: 30px;
+            color: #7c7c7c;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <% if (successMessage.length> 0) { %>
+        <div class="alert alert-success">
+            <span class="message">
+                <%= successMessage %>
+            </span>
+            <span class="close">&times;</span>
+        </div>
+        <% } %>
+        <% if (failureMessage.length> 0) { %>
+            <div class="alert alert-failure">
+                <span class="message">
+                    <%= failureMessage %>
+                </span>
+                <span class="close">&times;</span>
+            </div>
+            <% } %>
+
+            <h1>LibAPP</h1>
+
+            <h3>Καλωσήρθατε στην πανελλήνια εφαρμογή σχολικών βιβλιοθηκών!</h3>
+            <form action="login_page/login" method="post">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <input type="submit" value="Login">
+            </form>
+            <div class="signup-link">
+                Δεν έχετε λογαρισμό? <a href="/libapp/sign_up_page">Εγγραφείτε τώρα!</a>
+            </div>
+
+            <script>
+                // Close flash message when close button is clicked
+                const closeButtons = document.querySelectorAll('.close');
+                closeButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const alert = button.parentElement;
+                        alert.style.display = 'none';
+                    });
+                });
+            </script>
+</body>
+
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Αρχική</title>
+    <style>
+        /* CSS styles for better appearance (optional) */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .sections-container {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section a {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .description {
+            margin-top: 10px;
+        }
+
+        .alert {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            width: fit-content;
+        }
+
+        .alert-failure {
+            background-color: #ef7f7f;
+            color: #bc0404;
+            border: 1px solid #ef7f7f;
+        }
+
+        .alert .message {
+            flex: 1;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert .close {
+            margin-left: 30px;
+            color: #7c7c7c;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <% if (successMessage.length> 0) { %>
+        <div class="alert alert-success">
+            <span class="message">
+                <%= successMessage %>
+            </span>
+            <span class="close">&times;</span>
+        </div>
+        <% } %>
+
+            <% if (failureMessage.length> 0) { %>
+                <div class="alert alert-failure">
+                    <span class="message">
+                        <%= failureMessage %>
+                    </span>
+                    <span class="close">&times;</span>
+                </div>
+                <% } %>
+
+                    <a href="/libapp/login_page"
+                        style="position: absolute; top: 20px; right: 30px; font-size: 20px; text-decoration: none; color: #191e79">Έξοδος</a>
+
+                    <h1>Καλωσήρθατε <%= name %>!</h1>
+
+                    <div class="sections-container">
+                        <div class="section">
+                            <a href="admins?user_id=<%= user_id %>">
+                                <div class="title">Εγγραφές Χειριστών</div>
+                                <div class="description">Ελέγξτε τους ενεργούς Χειριστές και εγκρίνεται νέες εγγραφές
+                                    τους.</div>
+                            </a>
+                        </div>
+
+                        <div class="section">
+                            <a href="backup?user_id=<%= user_id %>">
+                                <div class="title">Backup</div>
+                                <div class="description">Δημιουργείστε έγγραφο ασφαλείας για τη βάση.</div>
+                            </a>
+                        </div>
+
+                        <div class="section">
+                            <a href="restore?user_id=<%= user_id %>">
+                                <div class="title">Restore</div>
+                                <div class="description">Χρησιμοποιώντας αντίγραφο ασφαλείας επαναφέρετε τη βάση.</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sections-container">
+                        <div class="section">
+                            <a href="first_query?user_id=<%= user_id %>">
+                                <div class="title">Δανεισμοί ανά Σχολείο</div>
+                                <div class="description">Δείτε τον αριθμό δανεισμών ανά σχολείο με κριτήρια αναζήτησης
+                                    έτος και μήνα.</div>
+                            </a>
+                        </div>
+
+                        <div class="section">
+                            <a href="second_query?user_id=<%= user_id %>">
+                                <div class="title">Κατηγορίες Βιβλίων</div>
+                                <div class="description">Δείτε ανά κατηγορία τους συγγραφείς καθώς και εκπαιδευτικούς
+                                    που έχουν δανειστεί βιβλία αυτής της κατηγορίας το τελευταίο έτος.</div>
+                            </a>
+                        </div>
+
+                        <div class="section">
+                            <a href="third_query?user_id=<%= user_id %>">
+                                <div class="title">Δανεισμοί νέων εκπαιδευτικών</div>
+                                <div class="description">Δείτε νέους εκπαιδευτικούς (ηλικία < 40 ετών) που έχουν
+                                        δανειστεί τα περισσότερα βιβλία και των αριθμό των βιβλίων.</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sections-container">
+                        <div class="section">
+                            <a href="fourth_query?user_id=<%= user_id %>">
+                                <div class="title">Μη Δημοφιλείς Συγγραφείς</div>
+                                <div class="description">Δείτε συγγραφείς των οποίων τα βιβλία δεν έχουν τύχει
+                                    δανεισμού.</div>
+                            </a>
+                        </div>
+
+                        <div class="section">
+                            <a href="fifth_query?user_id=<%= user_id %>">
+                                <div class="title">Δανεισμοί Χειριστών</div>
+                                <div class="description">Δείτε χειριστές που έχουν δανείσει τον ίδιο αριθμό βιβλίων σε
+                                    διάστημα ενός έτους με
+                                    περισσότερους από 20 δανεισμούς.</div>
+                            </a>
+                        </div>
+
+                        <div class="section">
+                            <a href="sixth_query?user_id=<%= user_id %>">
+                                <div class="title">Δημοφιλή Ζεύγη Κατηγοριών</div>
+                                <div class="description">Δείτε τα 3 κορυφαία ζεύγη κατηγοριών.</div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sections-container">
+                        <div class="section">
+                            <a href="seventh_query?user_id=<%= user_id %>">
+                                <div class="title">Συγγραφείς</div>
+                                <div class="description">Δείτε όλους τους συγγραφείς που έχουν γράψει τουλάχιστον 5
+                                    βιβλία λιγότερα από τον
+                                    συγγραφέα με τα περισσότερα βιβλία.</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <script>
+                        // Close flash message when close button is clicked
+                        const closeButtons = document.querySelectorAll('.close');
+                        closeButtons.forEach(button => {
+                            button.addEventListener('click', () => {
+                                const alert = button.parentElement;
+                                alert.style.display = 'none';
+                            });
+                        });
+                    </script>
+
+</body>
+
+</html>

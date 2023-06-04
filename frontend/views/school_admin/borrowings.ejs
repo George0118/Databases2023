@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Δανεισμοί</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            /* justify-content: center;
+            align-items: center; */
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 300px;
+            margin-right: 10px;
+        }
+    </style>
+    <script>
+        function searchTable() {
+            // Get the search term from the input field
+            var searchTerm = document.getElementById("searchInput").value.toLowerCase();
+
+            // Get all the table rows
+            var rows = document.getElementsByTagName("tr");
+
+            // Loop through the rows and hide/show based on the search term
+            for (var i = 0; i < rows.length; i++) {
+                var nameCell = rows[i].getElementsByTagName("td")[1]; // Name column is the second column (index 1)
+                if (nameCell) {
+                    var name = nameCell.innerText.toLowerCase();
+                    if (name.includes(searchTerm)) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <a href="/libapp/school_admin/starting_page?user_id=<%= user_id %>&school_id=<%= school_id %>"
+        style="position: absolute; top: 20px; left: 30px; font-size: 20px; text-decoration: none; color: #191e79">Αρχική</a>
+
+    <h1>Μη Εκπρόθεσμοι Δανεισμοί</h1>
+
+    <div class="search-container">
+        <label class="search-label" for="searchInput">Αναζήτηση:</label>
+        <input type="text" id="searchInput" class="search-input" oninput="searchTable()"
+            placeholder="Αναζήτηση Ονόματος">
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID Χρήστη</th>
+                <th>Όνομα</th>
+                <th>ISBN</th>
+                <th>Ημερομηνία Δανεισμού</th>
+                <th>Κατάσταση</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% borrowings.forEach(function(borrowing) { %>
+                <tr>
+                    <td>
+                        <%= borrowing.IdUsers %>
+                    </td>
+                    <td>
+                        <%= borrowing.Name %>
+                    </td>
+                    <td>
+                        <%= borrowing.ISBN %>
+                    </td>
+                    <td>
+                        <%= borrowing.BorrowDate.toLocaleDateString() %>
+                    </td>
+                    <td>
+                        <% if (!borrowing.Returned) { %>
+                            Δεν έχει επιστραφεί
+                            <% } else { %>
+                                Έχει επιστραφεί
+                                <% } %>
+                    </td>
+                </tr>
+                <% }); %>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

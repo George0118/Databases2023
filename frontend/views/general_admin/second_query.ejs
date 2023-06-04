@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Κατηγορίες</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .tables-container {
+            display: flex;
+            margin-top: 20px;
+            width: 70%;
+            align-items: flex-start;
+        }
+
+        table {
+            margin-top: 40px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+            height: 40px !important;
+        }
+
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        #category {
+            margin-top: 20px;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Event handler for form submission
+            $('form').submit(function (event) {
+                event.preventDefault();
+
+                // Get the selected values from dropdown lists
+                const category = $('#category').val();
+
+                // Perform AJAX request to fetch data from the server
+                $.post('second_query_search', { category: category }, function (data) {
+
+                    console.log(data);
+                    //const parsedData = JSON.parse(data);
+
+                    const writers = data.writers;
+                    const teachers = data.teachers;
+
+                    // Display the results in a table
+                    const wtable = $('#wtable');
+                    wtable.empty();
+
+                    // Add table header
+                    const wheaderRow = $('<tr><th>Συγγραφείς</th></tr>');
+                    wtable.append(wheaderRow);
+
+                    // Add table rows with data
+                    writers.forEach(function (row) {
+                        const tableRow = $('<tr></tr>');
+                        tableRow.append('<td>' + row.WriterName + '</td>');
+                        wtable.append(tableRow);
+                    });
+
+                    const ttable = $('#ttable');
+                    ttable.empty();
+
+                    // Add table header
+                    const theaderRow = $('<tr><th>Εκπαιδευτικοί</th></tr>');
+                    ttable.append(theaderRow);
+
+                    // Add table rows with data
+                    teachers.forEach(function (row) {
+                        const tableRow = $('<tr></tr>');
+                        tableRow.append('<td>' + row.TeacherName + '</td>');
+                        ttable.append(tableRow);
+                    });
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <a href="/libapp/general_admin/starting_page?user_id=<%= user_id %>"
+        style="position: absolute; top: 20px; left: 30px; font-size: 20px; text-decoration: none; color: #191e79">Αρχική</a>
+
+    <h1>Συνολικοί Δανεισμοί ανά Σχολείο</h1>
+
+    <form>
+        <label for="category">Κατηγορία:</label>
+        <select id="category" name="category">
+            <% for (const category of categories) { %>
+                <option value="<%= category %>">
+                    <%= category %>
+                </option>
+                <% } %>
+        </select>
+
+        <button type="submit">Search</button>
+    </form>
+
+    <div class="tables-container">
+        <table id="wtable">
+            <!-- The table will be populated dynamically -->
+        </table>
+        <table id="ttable">
+            <!-- The table will be populated dynamically -->
+        </table>
+    </div>
+</body>
+
+</html>

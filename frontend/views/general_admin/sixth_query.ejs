@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Δημοφιλείς Κατηγορίες</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 70%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/libapp/general_admin/starting_page?user_id=<%= user_id %>"
+        style="position: absolute; top: 20px; left: 30px; font-size: 20px; text-decoration: none; color: #191e79">Αρχική</a>
+
+    <h1>Top 3 Δημοφιλείς Κατηγορίες</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Κατηγορία 1</th>
+                <th>Κατηγορία 2</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% categories.forEach(function(category_pair) { %>
+                <tr>
+                    <td>
+                        <%= category_pair.category1 %>
+                    </td>
+                    <td>
+                        <%= category_pair.category2 %>
+                    </td>
+                </tr>
+                <% }); %>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

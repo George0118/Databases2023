@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Εισαγωγή Βιβλίου</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .form-element {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .form-element label,
+        .form-element input,
+        .form-element select,
+        .form-element textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .form-row input[type="submit"] {
+            width: 100%;
+        }
+
+        .alert {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            width: fit-content;
+        }
+
+        .alert-failure {
+            background-color: #ef7f7f;
+            color: #bc0404;
+            border: 1px solid #ef7f7f;
+        }
+
+        .alert .message {
+            flex: 1;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert .close {
+            margin-left: 30px;
+            color: #7c7c7c;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-top: 0px;
+        }
+
+        table td {
+            align-items: center;
+            height: fit-content;
+        }
+
+        table label {
+            padding-top: 0px;
+            height: fit-content;
+            align-content: center;
+            align-self: center;
+        }
+
+        table input[type="checkbox"] {
+            padding-right: 250px;
+            padding-bottom: 10px;
+        }
+    </style>
+    <script>
+        function validateForm() {
+          var checkboxes = document.querySelectorAll('input[name="Categories"]');
+          var checked = false;
+      
+          checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+              checked = true;
+            }
+          });
+      
+          if (!checked) {
+            alert('Please select at least one category.');
+            return false; // Prevent form submission
+          }
+        }
+      </script>
+</head>
+
+<body>
+    <% if (successMessage.length> 0) { %>
+        <div class="alert alert-success">
+            <span class="message">
+                <%= successMessage %>
+            </span>
+            <span class="close">&times;</span>
+        </div>
+        <% } %>
+
+            <% if (failureMessage.length> 0) { %>
+                <div class="alert alert-failure">
+                    <span class="message">
+                        <%= failureMessage %>
+                    </span>
+                    <span class="close">&times;</span>
+                </div>
+                <script>
+                    console.log("<%= failureMessage %>");
+                </script>
+                <% } %>
+
+                    <a href="/libapp/school_admin/starting_page?user_id=<%= user_id %>&school_id=<%= school_id %>"
+                        style="position: absolute; top: 20px; left: 30px; font-size: 20px; text-decoration: none; color: #191e79">Αρχική</a>
+
+                    <h1>Εισαγωγή Νέου Βιβλίου</h1>
+                    <form action="insert_book_page/insert" method="post", onsubmit="return validateForm();">
+                        <div class="form-row">
+                            <div class="form-element">
+                                <label for="isbn">ISBN</label>
+                                <input type="text" id="isbn" name="isbn" minlength="10" required>
+                            </div>
+
+                            <div class="form-element">
+                                <label for="title">Title</label>
+                                <input type="title" id="title" name="title" required>
+                            </div>
+
+                            <div class="form-element">
+                                <label for="publisher">Publisher</label>
+                                <input type="text" id="publisher" name="publisher" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-element">
+                                <label for="writers">Writers</label>
+                                <input type="text" id="writers" name="writers"
+                                    placeholder="Enter the writers separated by comma" required>
+                            </div>
+
+                            <div class="form-element">
+                                <label>Categories (choose multiple from the list below)</label>
+                                <table>
+                                    <% for (const category of categories) { %>
+                                        <tr>
+                                            <td>
+                                                <div class="row" style="display: flex; align-items: center;">
+                                                    <label style="margin-right: 10px;">
+                                                        <%= category %>
+                                                    </label>
+                                                    <input type="checkbox" name="Categories" value="<%= category %>">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                </table>
+                            </div>
+
+                            <div class="form-element">
+                                <label for="keywords">Keywords</label>
+                                <input type="text" id="keywords" name="keywords"
+                                    placeholder="Enter the keywords separated by comma" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-element">
+                                <label for="language">Language</label>
+                                <select id="language" name="language" required>
+                                    <% for (const language of languages) { %>
+                                        <option value="<%= language %>">
+                                            <%= language %>
+                                        </option>
+                                        <% } %>
+                                </select>
+                            </div>
+
+                            <div class="form-element">
+                                <label for="numPages">Number of Pages</label>
+                                <input type="text" id="numPages" name="numPages" required>
+                            </div>
+
+                            <div class="form-element">
+                                <label for="picture">Picture</label>
+                                <input type="text" id="picture" name="picture" placeholder="Enter the URL of the image">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-element">
+                                <label for="copies">Copies</label>
+                                <input type="text" id="copies" name="copies" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-element">
+                                <label for="summary">Summary</label>
+                                <textarea id="summary" name="summary" rows="4"></textarea>
+                            </div>
+                        </div>
+                        <input type="hidden" name="school_id" value="<%= school_id %>">
+                        <input type="hidden" name="user_id" value="<%= user_id %>">
+                        <input type="submit" value="Insert">
+                    </form>
+                    <script>
+                        // Close flash message when close button is clicked
+                        const closeButtons = document.querySelectorAll('.close');
+                        closeButtons.forEach(button => {
+                            button.addEventListener('click', () => {
+                                const alert = button.parentElement;
+                                alert.style.display = 'none';
+                            });
+                        });
+                    </script>
+                    <script>
+                        console.log("<%= failureMessage %>");
+                    </script>
+</body>
+
+</html>

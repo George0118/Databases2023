@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Αξιολόγηση <%= title %>
+    </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select,
+        textarea {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/libapp/user/starting_page?user_id=<%= user_id %>&school_id=<%= school_id %>&teacher=<%= teacher %>"
+        style="position: absolute; top: 20px; left: 30px; font-size: 20px; text-decoration: none; color: #191e79">Αρχική</a>
+
+    <h1>Αξιολόγηση <%= title %>
+    </h1>
+    <form action="review/commit" method="POST">
+        <label for="rating">Αξιολόγηση:</label>
+        <select id="rating" name="rating">
+            <option value="very-bad">Πολύ Κακό</option>
+            <option value="bad">Κακό</option>
+            <option value="average">Μέτριο</option>
+            <option value="good">Καλό</option>
+            <option value="very-good">Πολύ Καλό</option>
+        </select>
+
+        <label for="comment">Σχόλιο:</label>
+        <textarea id="comment" name="comment" rows="5"></textarea>
+
+
+        <input type="hidden" name="ISBN" value="<%= isbn %>">
+        <input type="hidden" name="user_id" value="<%= user_id %>">
+        <input type="hidden" name="school_id" value="<%= school_id %>">
+        <input type="hidden" name="teacher" value="<%= teacher %>">
+        <button class="approve-button" type="submit">Υποβολή</button>
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Δανεισμοί Χειριστών</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/libapp/general_admin/starting_page?user_id=<%= user_id %>"
+        style="position: absolute; top: 20px; left: 30px; font-size: 20px; text-decoration: none; color: #191e79">Αρχική</a>
+
+    <h1>Δανεισμοί Χειριστών</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Όνομα</th>
+                <th>Αριθμός Δανεισμών</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% admins.forEach(function(admin) { %>
+                <tr>
+                    <td>
+                        <%= admin.SchoolAdminList %>
+                    </td>
+                    <td>
+                        <%= admin.NumBorrowedBooks %>
+                    </td>
+                </tr>
+                <% }); %>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

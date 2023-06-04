@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Εκπρόθεσμοι Δανεισμοί</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            /* justify-content: center;
+            align-items: center; */
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 250px;
+            margin-right: 10px;
+        }
+    </style>
+    <script>
+        function searchTable() {
+            // Get the search terms from the input fields
+            var nameSearchTerm = document.getElementById("nameSearchInput").value.toLowerCase();
+            var surnameSearchTerm = document.getElementById("surnameSearchInput").value.toLowerCase();
+            var daysSearchTerm = document.getElementById("daysSearchInput").value.toLowerCase();
+
+            // Get all the table rows
+            var rows = document.getElementsByTagName("tr");
+
+            // Loop through the rows and hide/show based on the search terms
+            for (var i = 0; i < rows.length; i++) {
+                var nameCell = rows[i].getElementsByTagName("td")[1]; // Name column is the second column (index 1)
+                var surnameCell = rows[i].getElementsByTagName("td")[2]; // Surname column is the third column (index 2)
+                var daysCell = rows[i].getElementsByTagName("td")[5]; // Days column is the sixth column (index 5)
+
+                if (nameCell && surnameCell && daysCell) {
+                    var name = nameCell.innerText.toLowerCase();
+                    var surname = surnameCell.innerText.toLowerCase();
+                    var days = daysCell.innerText.toLowerCase();
+
+                    if (name.includes(nameSearchTerm) && surname.includes(surnameSearchTerm) && days.includes(daysSearchTerm)) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <a href="/libapp/school_admin/starting_page?user_id=<%= user_id %>&school_id=<%= school_id %>"
+        style="position: absolute; top: 20px; left: 30px; font-size: 20px; text-decoration: none; color: #191e79">Αρχική</a>
+
+    <h1>Ενεργοί Εκπρόθεσμοι Δανεισμοί</h1>
+
+    <div class="search-container">
+        <label class="search-label" for="nameSearchInput">Αναζήτηση Ονόματος:</label>
+        <input type="text" id="nameSearchInput" class="search-input" oninput="searchTable()"
+            placeholder="Αναζήτηση Ονόματος">
+        <label class="search-label" for="surnameSearchInput">Αναζήτηση Επωνύμου:</label>
+        <input type="text" id="surnameSearchInput" class="search-input" oninput="searchTable()"
+            placeholder="Αναζήτηση Επωνύμου">
+        <label class="search-label" for="daysSearchInput">Αναζήτηση Ημερών Καθυστέρησης:</label>
+        <input type="text" id="daysSearchInput" class="search-input" oninput="searchTable()"
+            placeholder="Αναζήτηση Ημερών Καθυστέρησης">
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID Χρήστη</th>
+                <th>Όνομα</th>
+                <th>Επώνυμο</th>
+                <th>ISBN</th>
+                <th>Ημερομηνία Δανεισμού</th>
+                <th>Ημέρες Καθυστέρησης</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% due_borrowings.forEach(function(due_borrowing) { %>
+                <tr>
+                    <td>
+                        <%= due_borrowing.IdUsers %>
+                    </td>
+                    <td>
+                        <%= due_borrowing.Name.toString().split(" ")[0] %>
+                </td>
+                <td>
+                    <%= due_borrowing.Name.toString().split(" ")[1] %>
+                </td>
+                <td>
+                    <%= due_borrowing.ISBN %>
+                </td>
+                <td>
+                    <%= due_borrowing.BorrowDate.toLocaleDateString() %>
+                </td>
+                <td>
+                    <%= due_borrowing.Deficit %>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

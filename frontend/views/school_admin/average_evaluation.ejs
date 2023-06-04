@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Μέσοι Όροι Βαθμολογιών</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 300px;
+            margin-right: 10px;
+        }
+    </style>
+    <script>
+        function searchTable() {
+            // Get the search terms from the input fields
+            var nameSearchTerm = document.getElementById("nameSearchInput").value.toLowerCase();
+            var categorySearchTerm = document.getElementById("categorySearchInput").value.toLowerCase();
+
+            // Get all the table rows
+            var rows = document.getElementsByTagName("tr");
+
+            // Loop through the rows and hide/show based on the search terms
+            for (var i = 0; i < rows.length; i++) {
+                var nameCell = rows[i].getElementsByTagName("td")[1]; // Name column is the second column (index 1)
+                var categoryCell = rows[i].getElementsByTagName("td")[2]; // Category column is the third column (index 2)
+                if (nameCell && categoryCell) {
+                    var name = nameCell.innerText.toLowerCase();
+                    var category = categoryCell.innerText.toLowerCase();
+                    if (name.includes(nameSearchTerm) && category.includes(categorySearchTerm)) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <a href="/libapp/school_admin/starting_page?user_id=<%= user_id %>&school_id=<%= school_id %>"
+        style="position: absolute; top: 20px; left: 30px; font-size: 20px; text-decoration: none; color: #191e79">Αρχική</a>
+
+
+    <h1>Βαθμολογίες Χρηστών Ανά Κατηγορία</h1>
+
+    <div class="search-container">
+        <label class="search-label" for="nameSearchInput">Αναζήτηση Ονόματος:</label>
+        <input type="text" id="nameSearchInput" class="search-input" oninput="searchTable()"
+            placeholder="Αναζήτηση Ονόματος">
+
+        <label class="search-label" for="categorySearchInput">Αναζήτηση Κατηγορίας:</label>
+        <input type="text" id="categorySearchInput" class="search-input" oninput="searchTable()"
+            placeholder="Αναζήτηση Κατηγορίας">
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID Χρήστη</th>
+                <th>Όνομα</th>
+                <th>Κατηγορία</th>
+                <th>Βαθμολογία</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% average_evaluations.forEach(function(eval) { %>
+                <tr>
+                    <td>
+                        <%= eval.IdUsers %>
+                    </td>
+                    <td>
+                        <%= eval.PersonName %>
+                    </td>
+                    <td>
+                        <%= eval.Category %>
+                    </td>
+                    <td>
+                        <%= eval.AverageEvaluation %>
+                    </td>
+                </tr>
+                <% }); %>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

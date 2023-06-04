@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Δανεισμός</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .form-element {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .form-element label,
+        .form-element input,
+        .form-element select,
+        .form-element textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .form-row input[type="submit"] {
+            width: 100%;
+        }
+
+        .alert {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            width: fit-content;
+        }
+
+        .alert-failure {
+            background-color: #ef7f7f;
+            color: #bc0404;
+            border: 1px solid #ef7f7f;
+        }
+
+        .alert .message {
+            flex: 1;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert .close {
+            margin-left: 30px;
+            color: #7c7c7c;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <% if (successMessage.length> 0) { %>
+        <div class="alert alert-success">
+            <span class="message">
+                <%= successMessage %>
+            </span>
+            <span class="close">&times;</span>
+        </div>
+        <% } %>
+
+            <% if (failureMessage.length> 0) { %>
+                <div class="alert alert-failure">
+                    <span class="message">
+                        <%= failureMessage %>
+                    </span>
+                    <span class="close">&times;</span>
+                </div>
+                <% } %>
+
+                    <a href="/libapp/school_admin/starting_page?user_id=<%= user_id %>&school_id=<%= school_id %>"
+                        style="position: absolute; top: 20px; left: 30px; font-size: 20px; text-decoration: none; color: #191e79">Αρχική</a>
+
+                    <h1>Δανεισμός Χωρίς Κράτηση</h1>
+                    <form action="borrow_without_reservation/borrow" method="post">
+                        <div class="form-row">
+                            <div class="form-element">
+                                <label for="userID">ID Χρήστη</label>
+                                <select id="userID" name="userID" required>
+                                    <% for (const user of users) { %>
+                                        <option value="<%= user %>">
+                                            <%= user %>
+                                        </option>
+                                        <% } %>
+                                </select>
+                            </div>
+                            <div class="form-element">
+                                <label for="ISBN">ISBN</label>
+                                <select id="ISBN" name="ISBN" required>
+                                    <% for (const ISBN of isbns) { %>
+                                        <option value="<%= ISBN %>">
+                                            <%= ISBN %>
+                                        </option>
+                                        <% } %>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" name="school_id" value="<%= school_id %>">
+                        <input type="hidden" name="user_id" value="<%= user_id %>">
+                        <input type="submit" value="Borrow">
+                    </form>
+                    <script>
+                        // Close flash message when close button is clicked
+                        const closeButtons = document.querySelectorAll('.close');
+                        closeButtons.forEach(button => {
+                            button.addEventListener('click', () => {
+                                const alert = button.parentElement;
+                                alert.style.display = 'none';
+                            });
+                        });
+                    </script>
+</body>
+
+</html>

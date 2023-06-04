@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Βιβλία</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 150px;
+            margin-right: 10px;
+        }
+
+        .action-button {
+            padding: 5px 10px;
+            background-color: #0f0f8f;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .alert {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            width: fit-content;
+        }
+
+        .alert-failure {
+            background-color: #ef7f7f;
+            color: #bc0404;
+            border: 1px solid #ef7f7f;
+        }
+
+        .alert .message {
+            flex: 1;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert .close {
+            margin-left: 30px;
+            color: #7c7c7c;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function searchTable() {
+            var titleSearchTerm = document.getElementById("titleInput").value.toLowerCase();
+            var categorySearchTerm = document.getElementById("categoryInput").value.toLowerCase();
+            var writerSearchTerm = document.getElementById("writerInput").value.toLowerCase();
+
+            var rows = document.getElementsByTagName("tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                var titleCell = rows[i].getElementsByTagName("td")[1];
+                var categoryCell = rows[i].getElementsByTagName("td")[4];
+                var writerCell = rows[i].getElementsByTagName("td")[3];
+
+                if (titleCell && categoryCell && writerCell) {
+                    var title = titleCell.innerText.toLowerCase();
+                    var category = categoryCell.innerText.toLowerCase();
+                    var writer = writerCell.innerText.toLowerCase();
+
+                    if (
+                        title.includes(titleSearchTerm) &&
+                        category.includes(categorySearchTerm) &&
+                        writer.includes(writerSearchTerm)
+                    ) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+    <% if (successMessage.length> 0) { %>
+        <div class="alert alert-success">
+            <span class="message">
+                <%= successMessage %>
+            </span>
+            <span class="close">&times;</span>
+        </div>
+        <% } %>
+
+            <% if (failureMessage.length> 0) { %>
+                <div class="alert alert-failure">
+                    <span class="message">
+                        <%= failureMessage %>
+                    </span>
+                    <span class="close">&times;</span>
+                </div>
+                <script>
+                    console.log("<%= failureMessage %>");
+                </script>
+                <% } %>
+
+                    <a href="/libapp/user/starting_page?user_id=<%= user_id %>&school_id=<%= school_id %>&teacher=<%= teacher %>"
+                        style="position: absolute; top: 20px; left: 30px; font-size: 20px; text-decoration: none; color: #191e79">Αρχική</a>
+
+                    <h1>Βιβλία</h1>
+
+                    <div class="search-container">
+                        <label class="search-label" for="titleInput">Αναζήτηση Τίτλου:</label>
+                        <input type="text" id="titleInput" class="search-input" oninput="searchTable('title')"
+                            placeholder="Αναζήτηση Τίτλου">
+
+                        <label class="search-label" for="writerInput">Αναζήτηση Συγγραφέων:</label>
+                        <input type="text" id="writerInput" class="search-input" oninput="searchTable('writers')"
+                            placeholder="Αναζήτηση Συγγραφέων">
+
+                        <label class="search-label" for="categoryInput">Αναζήτηση Κατηγοριών:</label>
+                        <input type="text" id="categoryInput" class="search-input" oninput="searchTable('categories')"
+                            placeholder="Αναζήτηση Κατηγοριών">
+                    </div>
+
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ISBN</th>
+                                <th>Τίτλος</th>
+                                <th>Εκδότης</th>
+                                <th>Συγγραφείς</th>
+                                <th>Κατηγορίες</th>
+                                <th>Λέξεις Κλειδιά</th>
+                                <th>Αριθμός Σελίδων</th>
+                                <th>Περίληψη</th>
+                                <th>Εικόνα</th>
+                                <th>Γλώσσα</th>
+                                <th>Βαθμολογία</th>
+                                <th>Ενέργεια</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% books.forEach(function(book) { %>
+                                <tr>
+                                    <td>
+                                        <%= book.ISBN %>
+                                    </td>
+                                    <td>
+                                        <%= book.Title %>
+                                    </td>
+                                    <td>
+                                        <%= book.Publisher %>
+                                    </td>
+                                    <td>
+                                        <%= book.Writers %>
+                                    </td>
+                                    <td>
+                                        <%= book.Categories %>
+                                    </td>
+                                    <td>
+                                        <%= book.Keywords %>
+                                    </td>
+                                    <td>
+                                        <%= book.PageNumber %>
+                                    </td>
+                                    <td>
+                                        <%= book.Summary %>
+                                    </td>
+                                    <td>
+                                        <img src="<%= book.Picture %>" alt="Book Image" height="100">
+                                    </td>
+                                    <td>
+                                        <%= book.Language %>
+                                    </td>
+                                    <td>
+                                        <%= book.Rating %>
+                                    </td>
+                                    <td>
+                                        <form action="books/reserve" method="POST">
+                                            <input type="hidden" name="ISBN" value="<%= book.ISBN %>">
+                                            <input type="hidden" name="user_id" value="<%= user_id %>">
+                                            <input type="hidden" name="school_id" value="<%= school_id %>">
+                                            <input type="hidden" name="teacher" value="<%= teacher %>">
+                                            <button class="approve-button" type="submit">Κράτηση</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                        </tbody>
+                    </table>
+                    <script>
+                        // Close flash message when close button is clicked
+                        const closeButtons = document.querySelectorAll('.close');
+                        closeButtons.forEach(button => {
+                            button.addEventListener('click', () => {
+                                const alert = button.parentElement;
+                                alert.style.display = 'none';
+                            });
+                        });
+                    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Δανεισμοί</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            margin-top: 40px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Event handler for form submission
+            $('form').submit(function (event) {
+                event.preventDefault();
+
+                // Get the selected values from dropdown lists
+                const month = $('#month').val();
+                const year = $('#year').val();
+
+                // Perform AJAX request to fetch data from the server
+                $.post('first_query_search', { year: year, month: month }, function (data) {
+                    // Display the results in a table
+                    const table = $('#results-table');
+                    table.empty();
+
+                    // Add table header
+                    const headerRow = $('<tr><th>Σχολείο</th><th>Δανεισμοί</th></tr>');
+                    table.append(headerRow);
+
+                    // Add table rows with data
+                    data.forEach(function (row) {
+                        const tableRow = $('<tr></tr>');
+                        tableRow.append('<td>' + row.SchoolName + '</td>');
+                        tableRow.append('<td>' + row.TotalBorrowings + '</td>');
+                        table.append(tableRow);
+                    });
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <a href="/libapp/general_admin/starting_page?user_id=<%= user_id %>"
+        style="position: absolute; top: 20px; left: 30px; font-size: 20px; text-decoration: none; color: #191e79">Αρχική</a>
+
+    <h1>Συνολικοί Δανεισμοί ανά Σχολείο</h1>
+
+    <form>
+        <label for="month">Μήνας:</label>
+        <select id="month" name="month">
+            <% for (const month of months) { %>
+                <option value="<%= month %>">
+                    <%= month %>
+                </option>
+                <% } %>
+        </select>
+
+        <label for="year">Έτος:</label>
+        <select id="year" name="year">
+            <% for (const year of years) { %>
+                <option value="<%= year %>">
+                    <%= year %>
+                </option>
+                <% } %>
+        </select>
+
+        <button type="submit">Search</button>
+    </form>
+
+    <table id="results-table">
+        <!-- The table will be populated dynamically -->
+    </table>
+</body>
+
+</html>
